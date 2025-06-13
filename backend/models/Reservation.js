@@ -1,54 +1,37 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Bookings = sequelize.define('Reservation', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-    },
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    totalPrice: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    totalDurationMillis: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    oldestPriceListId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-    },
+const Reservation = sequelize.define('Reservation', {
+    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
+    firstName: { type: DataTypes.STRING, allowNull: false },
+    lastName: { type: DataTypes.STRING, allowNull: false },
+    totalPrice: { type: DataTypes.FLOAT, allowNull: false },
+    totalDurationMillis: { type: DataTypes.FLOAT, allowNull: false },
+    oldestPriceListId: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+
     bookings: {
         type: DataTypes.ARRAY(DataTypes.JSON),
         allowNull: false,
         validate: {
-            isValidBookings(value) {
+            isArrayOfObjects(value) {
                 if (!Array.isArray(value)) {
-                    throw new Error('Bookings must be an array.');
+                    throw new Error('Booking must be an array.');
                 }
                 for (const booking of value) {
-                    const requiredFields = ['offerId', 'companyName', 'fromName', 'toName', 'amount'];
-                    for (const field of requiredFields) {
-                        if (!booking[field]) {
-                            throw new Error(`Each booking must have property "${field}".`);
-                        }
+                    if (
+                        typeof booking !== 'object' ||
+                        !booking.offerId ||
+                        !booking.companyName ||
+                        !booking.fromName ||
+                        !booking.toName ||
+                        !booking.amount
+                    ) {
+                        throw new Error('Booking must have offerId, companyName, fromName, and toName and amount');
                     }
                 }
             }
         }
     }
-}, {
-    tableName: 'reservations',
-    timestamps: false
 });
 
-module.exports = Bookings;
+module.exports = Reservation;

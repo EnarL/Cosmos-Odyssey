@@ -20,7 +20,7 @@ async function cleanInvalidPriceLists() {
             }));
         }
     } catch (error) {
-        console.error("Error cleaning invalid price lists:", error);
+        console.error("Error deleting invalid price lists:", error);
     }
 }
 
@@ -70,9 +70,9 @@ async function fetchPrices() {
         await upsertPriceList(data);
         await cleanInvalidPriceLists();
 
-        console.log(new Date().toISOString(), "||| CRONJOB: checked");
+        console.log(new Date().toISOString(), "Cronjob: checked");
     } catch (error) {
-        console.error("API Fetch Error:", error);
+        console.error("API fetching Error:", error);
     }
 }
 
@@ -91,4 +91,4 @@ cronjob.schedule(
     }
 );
 
-console.log("Cron job scheduled: Fetching data every minute");
+console.log("Cronjob scheduled. Fetching data every minute");

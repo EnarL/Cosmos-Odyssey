@@ -3,17 +3,17 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const routes = require('./routes/routes');
-const app = express();
-require("./cronjob/cronjob");
+const server = express();
+require("./config/cronjob");
 
-app.use(express.json());
-app.use(cors());
+server.use(express.json());
+server.use(cors());
 
 sequelize.sync()
-    .then(() => console.log("Database Connected in app.js"))
+    .then(() => console.log("Database Connected in server.js"))
     .catch(err => console.error(err));
 
-app.use('/api', routes);
+server.use('/api', routes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`backend running on port ${PORT}`));
+server.listen(PORT, () => console.log(`backend running on port ${PORT}`));

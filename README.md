@@ -18,4 +18,38 @@ docker-compose up --build
 
 ```
 
-For faster usage I added the needed .env files. 
+## Endpoints
+
+<h3>Reservations </h3>
+
+#### POST /reservations
+Creates a new reservation.
+
+#### GET /reservations
+Retrieves all reservations.
+
+#### GET /reservations/valid
+Retrieves reservations where all bookings have currently valid pricelists.
+
+<h3>Pricelists</h3>
+
+#### GET /pricelists
+Retrieves all pricelists.
+
+#### GET /pricelists/valid
+Retrieves pricelists that are currently valid (validUntil date is in the future).
+
+#### GET /pricelists/invalid
+Retrieves pricelists that are expired (validUntil date is in the past).
+
+<h3>Travels</h3>
+
+#### GET /travels
+Retrieves all available travels.
+
+#### GET /travels/valid
+Retrieves travels that have currently valid pricelists (pricelists with a validUntil date in the future).
+
+<br>
+
+### I added the needed .env files because it's a demo and it simplifies the process of running the program 

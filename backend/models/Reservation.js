@@ -13,23 +13,12 @@ const Reservation = sequelize.define('Reservation', {
         type: DataTypes.ARRAY(DataTypes.JSON),
         allowNull: false,
         validate: {
-            isArrayOfObjects(value) {
+            isArray(value) {
                 if (!Array.isArray(value)) {
-                    throw new Error('Booking must be an array.');
+                    throw new Error('Bookings must be a valid array.');
                 }
-                for (const booking of value) {
-                    if (
-                        typeof booking !== 'object' ||
-                        !booking.offerId ||
-                        !booking.companyName ||
-                        !booking.fromName ||
-                        !booking.toName ||
-                        !booking.amount
-                    ) {
-                        throw new Error('Booking must have offerId, companyName, fromName, and toName and amount');
-                    }
-                }
-            }
+            },
+            notEmpty: true
         }
     }
 });

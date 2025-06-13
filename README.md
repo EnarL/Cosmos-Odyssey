@@ -15,3 +15,7 @@ docker-compose up --build
 
 # Backend is running at:
 # http://localhost:5000
+
+```
+
+For faster usage I added the needed .env files. 
